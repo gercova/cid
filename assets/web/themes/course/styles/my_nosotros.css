@@ -1,0 +1,16 @@
+/***********
+1. container
+***********/
+
+@media (min-width: 1200px) {
+	.container {
+		max-width: 960px;
+	}
+}
+.service_item_title {
+	font-family: 'Roboto', sans-serif;
+	font-size: 22px;
+	font-weight: 500;
+	color: #1a1a1a;
+	margin-bottom: 13px;
+}

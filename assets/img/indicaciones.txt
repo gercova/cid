@@ -1,0 +1,10 @@
+cara del CERTIFICADO
+ "informatica.jpg"
+
+espada del CERTIFICADO
+  "informaticaspd.jpg"
+
+estos parametros se debe seguir si el certificado tuviera detalles en la cara y espalda segun su diseño en corel,
+ el mombre solo varia en SPD(espalda" para la parte posterior del cetificado.
+
+el nombre "informatica.jpg" es el monbre del diseño guardado en la base de datos en el campo img de la tabla certificados.

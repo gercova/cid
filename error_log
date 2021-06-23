@@ -1,0 +1,14 @@
+[24-Nov-2020 14:36:55 America/Chicago] PHP Fatal error:  require_once(): Failed opening required './vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/cti/public_html/siscti/application/controllers/matriculas/Certificados.php on line 5
+[24-Nov-2020 16:04:30 America/Chicago] PHP Fatal error:  require_once(): Failed opening required './vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/cti/public_html/siscti/application/controllers/matriculas/Certificados.php on line 5
+[04-May-2021 16:20:34 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:21:16 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:21:18 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:21:25 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:21:26 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:21:32 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:22:03 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:22:04 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:22:06 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:22:34 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:22:38 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43
+[04-May-2021 16:23:22 America/Chicago] PHP Fatal error:  Cannot redeclare Duplicados_model::getCertificados() in /home/cti/public_html/siscti/application/models/Duplicados_model.php on line 43

@@ -1,0 +1,32 @@
+/***********
+1.
+***********/
+.elements{
+	background: #0089ff;
+	padding-top: 1rem;
+	color: white;
+}
+
+.elements .icon_box h3 {
+	color: white;
+}
+.elements .icon_box p {
+	color: white;
+}
+
+.icon_box h3::before {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	transform: translateX(-50%);
+	width: 55px;
+	height: 4px;
+	content: '';
+	background: white; /*#0089ff;*/
+}
+

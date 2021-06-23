@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url('fondos-min.jpg');
+}
+
+.form-register {
+  width: 350px;
+  background: #f8f8f8;
+  padding: 20px;
+  margin: 20px;
+  float: right;
+  margin-top: 20px;
+  border-radius: 20px;
+  font-family: 'calibri';
+  color: rgb(247, 247, 247);
+  box-shadow: 7px 13px 37px #000;
+}
+
+.form-register h4 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.labeltext {
+  width: 20%;
+}
+
+.labelfor {
+  width: 100%;
+}
+
+.dnitext {
+  width: 20%;
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  border: 1px solid #1f53c5;
+  font-family: 'calibri';
+  font-size: 12px;
+  color: rgb(13, 26, 212);
+}
+
+.pequeños {
+  width: 40%;
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  border: 1px solid #1f53c5;
+  font-family: 'calibri';
+  font-size: 12px;
+  color: rgb(13, 26, 212);
+}
+
+.medianos {
+  width: 60%;
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  border: 1px solid #1f53c5;
+  font-family: 'calibri';
+  font-size: 12px;
+  color: rgb(13, 26, 212);
+}
+
+.grandes {
+  width: 100%;
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  border: 1px solid #1f53c5;
+  font-family: 'calibri';
+  font-size: 12px;
+  color: rgb(13, 26, 212);
+}
+
+
+
+.form-register p {
+  height: 40px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 40px;
+}
+
+.form-register a {
+  color: white;
+  text-decoration: none;
+}
+
+.form-register a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.form-register .botons {
+  width: 100%;
+  background: #1f53c5;
+  border: none;
+  padding: 12px;
+  color: white;
+  margin: 16px 0;
+  font-size: 16px;
+}

@@ -1,0 +1,51 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Backend_model extends CI_Model {
+	public function getID($link){
+
+		$this->db->like("link",$link);
+		$resultado = $this->db->get("menus");
+		return $resultado->row();
+
+	}
+
+	public function getPermisos($menu,$rol){
+		$this->db->Where("menu_id",$menu);
+		$this->db->where ("rol_id",$rol);
+		$resultado = $this->db->get("permisos");
+		return $resultado->row();
+
+	}
+	
+	public function showMenu($rol){
+		$this->db->select("m.link as link");
+		$this->db->from("permisos p");
+		$this->db->join("menus m", "p.menu_id = m.id");
+		$this->db->where ("p.read",1);
+		$this->db->where ("p.rol_id",$rol);
+		$resultados = $this->db->get();
+		
+		$enlaces = array_column($resultados->result_array(), 'link');
+
+		return $enlaces;
+	}
+
+/** para contar cuantos registros tenemos en las tablas y ademas contar las ventas con la condicion **/
+	public function rowCount($tabla){
+		// if($tabla != "ventas"){
+		// 	$this->db->where("estado","1");
+		// }
+		$this->db->where("estado","1");
+		$resultados = $this->db->get($tabla);
+		return $resultados->num_rows();
+
+	}
+	
+	public function rowSuma($tabla){
+		$this->db->select_sum("monto");
+		$this->db->where("estado","1");
+		$resultados = $this->db->get($tabla);
+		return $resultados->result()[0]->monto;
+	}
+}
