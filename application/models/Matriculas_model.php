@@ -1,11 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+class Matriculas_model extends CI_Model {
 
-class Matriculas_model extends CI_Model
-{
-
-	public function getMatriculas() /// grillaaa
-	{
+	public function getMatriculas(){ /// grillaaa
 		$this->db->select("a.*,a.id,c.nombre as curso,d.nombre as docente,g.nombre as grupo,g.hora_ini,g.hora_fin,a.fecha_ini,a.fecha_fin,au.nombre as aula");
 		$this->db->from("aperturas a");
 		$this->db->join("prematriculas p", "p.apertura_id = a.id");
@@ -47,113 +44,89 @@ class Matriculas_model extends CI_Model
 		return [$this->db->get()->result_array(), $cont];
 	} 
 
-	public function getApertura() /// cargar cursos en el formulario add
-	{
-		$this->db->select("a.*,a.id,c.nombre as curso,g.nombre as grupo,g.hora_ini,g.hora_fin");
-		$this->db->from("aperturas a");
-		$this->db->join("cursos c", "a.curso_id = c.id");
-		$this->db->join("grupos g", "a.grupo_id = g.id");
-		$this->db->where("a.notas", "0");
-		$this->db->where("a.estado", "1");
-		$resultados = $this->db->get();
+	public function getApertura(){ /// cargar cursos en el formulario add
+		$resultados = $this->db->select("a.*,a.id,c.nombre as curso,g.nombre as grupo,g.hora_ini,g.hora_fin")
+			->from("aperturas a")
+			->join("cursos c", "a.curso_id = c.id")
+			->join("grupos g", "a.grupo_id = g.id")
+			->where("a.notas", "0")
+			->where("a.estado", "1")
+			->get();
 		if ($resultados->num_rows() > 0) {
 			return $resultados->result();
 		} else {
 			return false;
 		}
 	}
-	public function getDocAul($id) /// cargar datos docente aula fechas del mantenimiento add prematricula
-	{
-		$this->db->select("a.*,a.id,a.docente_id,d.nombre as docente,a.aula_id,au.nombre as aula,a.fecha_ini,a.fecha_fin");
-		$this->db->from("aperturas a");
-		$this->db->join("docentes d", "a.docente_id = d.id");
-		$this->db->join("aulas au", "a.aula_id = au.id");
-		$this->db->where("a.notas", "0");
-		$this->db->where("a.estado", "1");
-		///$resultados = $this->db->get();
-		$this->db->where("a.id", $id);
-		$resultado = $this->db->get();
-
+	public function getDocAul($id){ /// cargar datos docente aula fechas del mantenimiento add prematricula
+		$resultado = $this->db->select("a.*,a.id,a.docente_id,d.nombre as docente,a.aula_id,au.nombre as aula,a.fecha_ini,a.fecha_fin")
+			->from("aperturas a")
+			->join("docentes d", "a.docente_id = d.id")
+			->join("aulas au", "a.aula_id = au.id")
+			->where("a.notas", "0")
+			->where("a.estado", "1")
+			->where("a.id", $id)
+			->get();
 		if ($resultado->num_rows() > 0) {
 			echo json_encode($resultado->result()[0]);
 		} else {
 			echo json_encode($resultado->result());
 		}
-		//echo json_encode($resultado->result()[0]);
 	}
 
-
-
-	public function getDocAulmod($id) /// cargar datos docente aula fechas del mantenimiento add prematricula
-	{
-		$this->db->select("a.*,a.id,a.docente_id,d.nombre as docente,a.aula_id,au.nombre as aula,a.fecha_ini,a.fecha_fin");
-		$this->db->from("aperturas a");
-		$this->db->join("docentes d", "a.docente_id = d.id");
-		$this->db->join("aulas au", "a.aula_id = au.id");
-		//$this->db->where("a.notas", "0");
-		$this->db->where("a.estado", "1");
-		///$resultados = $this->db->get();
-		$this->db->where("a.id", $id);
-		$resultado = $this->db->get();
-
+	public function getDocAulmod($id){ /// cargar datos docente aula fechas del mantenimiento add prematricula
+		$resultado = $this->db->select("a.*,a.id,a.docente_id,d.nombre as docente,a.aula_id,au.nombre as aula,a.fecha_ini,a.fecha_fin")
+			->from("aperturas a")
+			->join("docentes d", "a.docente_id = d.id")
+			->join("aulas au", "a.aula_id = au.id")
+			->where("a.estado", "1")
+			->where("a.id", $id)
+			->get();
 		if ($resultado->num_rows() > 0) {
 			echo json_encode($resultado->result()[0]);
 		} else {
 			echo json_encode($resultado->result());
 		}
-		//echo json_encode($resultado->result()[0]);
 	}
 
-
-
-
-
-	public function buscarAlumnos($idapertura)
-	{
-		/** cargar alumnos para para matricular en el formulario edit **/
-
-		$this->db->select("p.*,p.id as codigo,e.num_documento as dni,p.estudiante_id,e.nombre");
-		$this->db->from("prematriculas p");
-		$this->db->join("aperturas a", "p.apertura_id = a.id");
-		$this->db->join("estudiantes e", "p.estudiante_id = e.id");
-		$this->db->join("cursos c", "a.curso_id = c.id");
-		$this->db->join("grupos g", "a.grupo_id = g.id");
-		$this->db->where("p.apertura_id", $idapertura);
-		$this->db->where("p.pagado", "1");
-		$this->db->where("p.estado", "1");
-		$this->db->where("p.matriculado", "0");
-		$resultado = $this->db->get();
-		// return $resultado->result();
-		// exit(json_encode($resultado->result()));
+	public function buscarAlumnos($idapertura){
+		$resultado = $this->db->select("p.*,p.id as codigo,e.num_documento as dni,p.estudiante_id,e.nombre")
+			->from("prematriculas p")
+			->join("aperturas a", "p.apertura_id = a.id")
+			->join("estudiantes e", "p.estudiante_id = e.id")
+			->join("cursos c", "a.curso_id = c.id")
+			->join("grupos g", "a.grupo_id = g.id")
+			->where("p.apertura_id", $idapertura)
+			->where("p.pagado", "1")
+			->where("p.estado", "1")
+			->where("p.matriculado", "0")
+			->get();
 		echo json_encode($resultado->result());
 	}
 
-
-	public function getMatricula($id) /// cargar formulario editar
-	{
-		$this->db->select("a.*,a.id,c.nombre as curso,a.docente_id,d.nombre as docente,g.nombre as grupo,g.hora_ini,g.hora_fin,a.fecha_ini,a.fecha_fin,a.aula_id,au.nombre as aula");
-		$this->db->from("aperturas a");
-		$this->db->join("prematriculas p", "p.apertura_id = a.id");
-		$this->db->join("estudiantes e", "p.estudiante_id = e.id");
-		$this->db->join("cursos c", "a.curso_id = c.id");
-		$this->db->join("grupos g", "a.grupo_id = g.id");
-		$this->db->join("docentes d", "a.docente_id = d.id");
-		$this->db->join("aulas au", "a.aula_id = au.id");
-		$this->db->where("a.id", $id);
-		$resultado = $this->db->get();
+	public function getMatricula($id){ /// cargar formulario editar
+		$resultado = $this->db->select("a.*,a.id,c.nombre as curso,a.docente_id,d.nombre as docente,g.nombre as grupo,g.hora_ini,g.hora_fin,a.fecha_ini,a.fecha_fin,a.aula_id,au.nombre as aula")
+			->from("aperturas a")
+			->join("prematriculas p", "p.apertura_id = a.id")
+			->join("estudiantes e", "p.estudiante_id = e.id")
+			->join("cursos c", "a.curso_id = c.id")
+			->join("grupos g", "a.grupo_id = g.id")
+			->join("docentes d", "a.docente_id = d.id")
+			->join("aulas au", "a.aula_id = au.id")
+			->where("a.id", $id)
+			->get();
 		return $resultado->row();
 	}
 
-	public function getprematriculados($id) /// cargar alumnos formulario editar
-	{
+	public function getprematriculados($id){ /// cargar alumnos formulario editar
 		/** guarda los Modulos */
-		$this->db->select("p.*,p.id,e.num_documento as dni,e.nombre,e.celular");
-		$this->db->from("prematriculas p");
-		$this->db->join("aperturas a", "p.apertura_id = a.id");
-		$this->db->join("estudiantes e", "p.estudiante_id = e.id");
-		$this->db->where("p.apertura_id", $id);
-		$this->db->where("p.matriculado", "1");
-		$resultados = $this->db->get();
+		$resultados = $this->db->select("p.*,p.id,e.num_documento as dni,e.nombre,e.celular")
+			->from("prematriculas p")
+			->join("aperturas a", "p.apertura_id = a.id")
+			->join("estudiantes e", "p.estudiante_id = e.id")
+			->where("p.apertura_id", $id)
+			->where("p.matriculado", "1")
+			->get();
 		if ($resultados->num_rows() > 0) {
 			return $resultados->result();
 		} else {
@@ -161,24 +134,21 @@ class Matriculas_model extends CI_Model
 		}
 	}
 
-	public function update($id, $data)
-	{
+	public function update($id, $data){
 		/** actualiza los datos **/
 		$this->db->where("id", $id);
 		return $this->db->update("prematriculas", $data);
 	}
 
-	public function getMatriculaDelete($id)
-	{
-		$this->db->select("p.*,p.id");
-		$this->db->from("prematriculas p");
-		$this->db->join("aperturas a", "p.apertura_id = a.id");
-		$this->db->where("p.estado", "1");
-		$this->db->where("p.matriculado", "1");
-		$this->db->where("p.apertura_id", $id);
-		$resultados = $this->db->get();
-		//exit(json_encode(gettype($resultados->result())));
-		if ($resultados->num_rows() > 0) {
+	public function getMatriculaDelete($id){
+		$resultados = $this->db->select("p.*,p.id")
+			->from("prematriculas p")
+			->join("aperturas a", "p.apertura_id = a.id")
+			->where("p.estado", "1")
+			->where("p.matriculado", "1")
+			->where("p.apertura_id", $id)
+			->get();
+		if ($resultados->num_rows() > 0){
 			return $resultados->result();
 		} else {
 			return false;
@@ -186,22 +156,18 @@ class Matriculas_model extends CI_Model
 	}
 
 	/** modificciones */
-	public function getAperturamod() /// cargar cursos en el formulario add
-	{
-		$this->db->select("a.*,a.id,c.nombre as curso,g.nombre as grupo,g.hora_ini,g.hora_fin");
-		$this->db->from("aperturas a");
-		$this->db->join("cursos c", "a.curso_id = c.id");
-		$this->db->join("grupos g", "a.grupo_id = g.id");
-		//$this->db->where("a.notas", "0");
-		$this->db->where("a.estado", "1");
-		$resultados = $this->db->get();
+	public function getAperturamod(){ /// cargar cursos en el formulario add
+		$resultados = $this->db->select("a.*,a.id,c.nombre as curso,g.nombre as grupo,g.hora_ini,g.hora_fin")
+			->from("aperturas a")
+			->join("cursos c", "a.curso_id = c.id")
+			->join("grupos g", "a.grupo_id = g.id")
+			->where("a.estado", "1")
+			->get();
 		if ($resultados->num_rows() > 0) {
 			return $resultados->result();
 		} else {
 			return false;
 		}
 	}
-
-
 
 }

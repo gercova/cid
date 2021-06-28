@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
 class Pagos extends CI_Controller {
 
 	public function __construct(){
@@ -93,7 +92,6 @@ class Pagos extends CI_Controller {
 
 		$this->View_model->render_view('admin/pagos/edit', $data, $content_data = null);
 	}
-
 
 	public function update(){
 		$idusuario 			= $this->session->userdata("id");
