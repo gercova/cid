@@ -26,10 +26,10 @@ $menus = array(
                        // array('link'=>'registrar/grupos', 'nombre'=> 'Grupos'), 
                        // array('link'=>'registrar/aulas', 'nombre'=> 'Aulas')
                 )),
-                array('id_padre'=>3,'nombre' => 'Prematriculas','icono'=> 'fa-male',
+                array('id_padre'=>3,'nombre' => 'PREMATRICULAS','icono'=> 'fa-male',
                 'links' => array( 
-                        array('link'=>'movimientos/aperturas', 'nombre'=> 'Aperturar Curso'), 
-                        array('link'=>'movimientos/prematriculas', 'nombre'=> 'Registrar Prematricula')
+                        array('link'=>'prematriculas/apertura', 'nombre'=> 'Aperturar Curso'), 
+                        array('link'=>'prematriculas/prematricula', 'nombre'=> 'Registrar Prematricula')
                 )),
                 array('id_padre'=>4,'nombre' => 'Pagos','icono'=> 'fa-dashboard',
                 'links' => array( 

@@ -1,7 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class tipos_model extends CI_Model {
+class Tipos_model extends CI_Model {
+
+	function getTipo(){
+		$query = $this->db->get('tipos');
+		return $query->result();
+	}
 
 	public function grilla($starIndex, $pageSize, $buscar){
 		$cont=$this->db->count_all_results('tipos'); 

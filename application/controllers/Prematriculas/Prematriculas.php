@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Pre extends CI_Controller {
+class Prematriculas extends CI_Controller {
 	
 	public function __construct(){
 		parent::__construct();
@@ -16,15 +16,48 @@ class Pre extends CI_Controller {
 
 	public function add(){
 		$data = [
-			'alumnos' 	=> $this->Estudiantes_model->getestudiantes(),
-			'tipos' 	=> $this->Tipos_model->getTipo(),
-			'idiomas' 	=> $this->Cursos_model->getCursos(),
-			'ciclos' 	=> $this->Ciclos_model->getCiclos(),
-			'niveles' 	=> $this->Niveles_model->getNiveles(),
+			'estudiantes' 	=> $this->Estudiantes_model->getestudiantes(),
+			'tipos' 		=> $this->Tipos_model->getTipo(),
+			'idiomas' 		=> $this->Cursos_model->getCursos(),
+			'ciclos' 		=> $this->Ciclos_model->getCiclos(),
+			'niveles' 		=> $this->Niveles_model->getNiveles(),
+			'dias' 			=> $this->Dias_model->getDays(),
+		];
+
+		$this->View_model->render_view('admin/pre/add', $data, $content_data = null);
+	}
+
+	# aperturar grupo 
+	public function add_apg(){
+		$data = [
+			'cursos' 	=> $this->Cursos_model->getCursos(),
 			'dias' 		=> $this->Dias_model->getDays(),
 		];
 
-		$this->View_model->render_view('pre/add', $data, $content_data = null);
+		$this->View_model->render_view('admin/pre/add_apg', $data, $content_data = null);
+	}
+
+	# método guardar apertura grupo
+	public function store_apg(){
+		$id = $this->input->post();
+		$data[''] = $this->input->post('');
+		$data[''] = $this->input->post('');
+
+		if(empty($id)){
+			if($this->Aperturas_model->save($data)){
+				redirect(base_url());
+			}else{
+				$this->session->set_flashdata('error', 'Algo salió mal');
+				redirect(base_url(''));
+			}
+		}elseif(isset($id)){
+			if($this->Aperturas_model->update($id, $data)){
+				redirect(base_url(''));
+			}else{
+				$this->session->set_flashdata('error', 'Algo salió mal');
+				redirect(base_url(''));
+			}
+		}
 	}
 
 	public function store(){
@@ -56,10 +89,5 @@ class Pre extends CI_Controller {
 				redirect(base_url(''));
 			}
 		}
-	}
-
-	public function anular_prematricula(){
-		//$matricula_id = $this->input->post('');
-		//$this->Matriculas_model->
 	}
 }

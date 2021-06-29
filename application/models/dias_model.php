@@ -2,6 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Dias_model extends CI_Model {
 
+	function getDays(){
+		$query = $this->db->get('dias');
+		return $query->result();
+	}
+
 	public function grilla($starIndex, $pageSize, $buscar){
 		$cont = $this->db->count_all_results('dias'); 
 		$this->db->select("a.id, a.descripcion, a.estado");
