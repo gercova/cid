@@ -83,8 +83,7 @@ class Certificados_model extends CI_Model
 		return $resultados->result();
 	}
 
-	public function getEdit($id)
-	{
+	public function getEdit($id){
 		$this->db->select("c.*,c.id,e.nombre as alumno, cu.nombre as curso,c.fecha_ini,c.fecha_fin ,c.folio, c.correlativo, c.fecha, c.img, c.modalidad");
 		$this->db->from("certificado as c");
 		$this->db->join("prematriculas as p", "c.prematricula_id = p.id");

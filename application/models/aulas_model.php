@@ -1,10 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class aulas_model extends CI_Model {
+class Aulas_model extends CI_Model {
 
 	public function grilla($starIndex, $pageSize, $buscar){
-		$cont=$this->db->count_all_results('aulas'); 
+		$cont = $this->db->count_all_results('aulas'); 
 		$this->db->select("a.id, a.descripcion, a.estado");
 		$this->db->from("aulas as a");
 		$this->db->or_where("a.descripcion LIKE '%$buscar%' AND a.estado=1");
@@ -23,13 +22,12 @@ class aulas_model extends CI_Model {
 		return $this->db->update("aulas",$data);
 	}
 
-	public function getedit($id) /// cargar datos docente aula fechas del mantenimiento add prematricula
-	{
-		$this->db->select("*");
-		$this->db->from("aulas");
-		$this->db->where("id",$id);
-		$this->db->where("estado","1");
-		$resultado = $this->db->get();
+	public function getedit($id){ /// cargar datos docente aula fechas del mantenimiento add prematricula
+		$resultado = $this->db->select("*")
+			->from("aulas")
+			->where("id",$id)
+			->where("estado","1")
+			->get();
 		if ($resultado->num_rows() > 0) {
 			echo json_encode($resultado->result()[0]);
 		} else {

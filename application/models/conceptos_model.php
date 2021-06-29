@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class conceptos_model extends CI_Model {
+class Conceptos_model extends CI_Model {
 
 	public function grilla($starIndex, $pageSize, $buscar){
 		$cont=$this->db->count_all_results('conceptos'); 
@@ -23,13 +22,12 @@ class conceptos_model extends CI_Model {
 		return $this->db->update("conceptos",$data);
 	}
 
-	public function getedit($id) /// cargar datos docente aula fechas del mantenimiento add prematricula
-	{
-		$this->db->select("*");
-		$this->db->from("conceptos");
-		$this->db->where("id",$id);
-		$this->db->where("estado","1");
-		$resultado = $this->db->get();
+	public function getedit($id){ /// cargar datos docente aula fechas del mantenimiento add prematricula
+		$resultado = $this->db->select("*")
+			->from("conceptos")
+			->where("id",$id)
+			->where("estado","1")
+			->get();
 		if ($resultado->num_rows() > 0) {
 			echo json_encode($resultado->result()[0]);
 		} else {

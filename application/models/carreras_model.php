@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class carreras_model extends CI_Model {
+class Carreras_model extends CI_Model {
 
 	public function grilla($starIndex, $pageSize, $buscar){
 		$cont=$this->db->count_all_results('carreras'); 

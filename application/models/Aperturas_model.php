@@ -3,16 +3,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Aperturas_model extends CI_Model{
 
 	public function getAperturas(){
-		$this->db->select("a.*,a.id,c.nombre as curso,tc.descripcion,g.nombre as grupo,g.hora_ini,g.hora_fin, s.nombre as sede_nombre");
-		$this->db->from("aperturas a");
-		$this->db->join("cursos c", "a.curso_id = c.id");
-		$this->db->join("tipo_curso tc", "c.tipocurso_id = tc.id");
-		$this->db->join("grupos g", "a.grupo_id = g.id");
-		$this->db->join("sedes s", "a.sede_id = s.id");
-		$this->db->where("a.notas", "0");
-		$this->db->where("a.estado", "1");
-		$resultados = $this->db->get();
-		if ($resultados->num_rows() > 0) {
+		$resultados = $this->db->select("a.*,a.id,c.nombre as curso,tc.descripcion,g.nombre as grupo,g.hora_ini,g.hora_fin, s.nombre as sede_nombre")
+			->from("aperturas a")
+			->join("cursos c", "a.curso_id = c.id")
+			->join("tipo_curso tc", "c.tipocurso_id = tc.id")
+			->join("grupos g", "a.grupo_id = g.id")
+			->join("sedes s", "a.sede_id = s.id")
+			->where("a.notas", "0")
+			->where("a.estado", "1")
+			->get();
+		if($resultados->num_rows() > 0) {
 			return $resultados->result();
 		} else {
 			return false;
@@ -20,7 +20,7 @@ class Aperturas_model extends CI_Model{
 	}
 
 	public function grilla($starIndex, $pageSize, $buscar){
-		$cont=$this->db->count_all_results('aperturas'); 
+		$cont = $this->db->count_all_results('aperturas'); 
 		$this->db->select("a.id,c.nombre as curso,tc.descripcion as tipo,s.nombre as sede,g.nombre as grupo,g.hora_ini,g.hora_fin, a.fecha_ini,estado_inscripcion");
 		$this->db->from("aperturas a");
 		$this->db->join("cursos c", "a.curso_id = c.id");
@@ -35,16 +35,16 @@ class Aperturas_model extends CI_Model{
 	} 
 
 	public function getCursospre($datouno, $datodos){
-		$this->db->select("a.*,a.id,c.nombre as curso,tc.descripcion,g.nombre as grupo,g.hora_ini,g.hora_fin");
-		$this->db->from("aperturas a");
-		$this->db->join("cursos c", "a.curso_id = c.id");
-		$this->db->join("tipo_curso tc", "c.tipocurso_id = tc.id");
-		$this->db->join("grupos g", "a.grupo_id = g.id");
-		$this->db->where("a.notas", "0");
-		$this->db->where("a.estado", "1");
-		$this->db->where("a.curso_id", $datouno);
-		$this->db->where("a.grupo_id", $datodos);
-		$resultados = $this->db->get();
+		$resultados = $this->db->select("a.*,a.id,c.nombre as curso,tc.descripcion,g.nombre as grupo,g.hora_ini,g.hora_fin")
+			->from("aperturas a")
+			->join("cursos c", "a.curso_id = c.id")
+			->join("tipo_curso tc", "c.tipocurso_id = tc.id")
+			->join("grupos g", "a.grupo_id = g.id")
+			->where("a.notas", "0")
+			->where("a.estado", "1")
+			->where("a.curso_id", $datouno)
+			->where("a.grupo_id", $datodos)
+			->get();
 		if ($resultados->num_rows() > 0) {
 			return $resultados->result();
 		} else {
@@ -54,48 +54,45 @@ class Aperturas_model extends CI_Model{
 
 	public function getApertura($id){
 		/** guarda los Modulos */
-		$this->db->select("a.*,a.id,a.curso_id,c.nombre as curso,tc.descripcion,a.grupo_id,g.nombre as grupo,g.hora_ini,g.hora_fin, a.fecha_ini");
-		$this->db->from("aperturas a");
-		$this->db->join("cursos c", "a.curso_id = c.id");
-		$this->db->join("tipo_curso tc", "c.tipocurso_id = tc.id");
-		$this->db->join("grupos g", "a.grupo_id = g.id");
-		$this->db->where("a.id", $id);
-		$resultado = $this->db->get();
+		$resultado = $this->db->select("a.*,a.id,a.curso_id,c.nombre as curso,tc.descripcion,a.grupo_id,g.nombre as grupo,g.hora_ini,g.hora_fin, a.fecha_ini")
+			->from("aperturas a")
+			->join("cursos c", "a.curso_id = c.id")
+			->join("tipo_curso tc", "c.tipocurso_id = tc.id")
+			->join("grupos g", "a.grupo_id = g.id")
+			->where("a.id", $id)
+			->get();
 		return $resultado->row();
 	}
 
 	public function getPrematri($idestudiante, $idcurso, $estado){
 		/** para la opcion editar **/
-		$this->db->where("estudiante_id", $idestudiante);
-		$this->db->where("curso_id", $idcurso);
-		$this->db->where("estado", $estado);
-		$resultado = $this->db->get("aperturas");
+		$resultado = $this->db->where("estudiante_id", $idestudiante)
+			->where("curso_id", $idcurso)
+			->where("estado", $estado)
+			->get("aperturas");
 		return $resultado->row();
 	}
 
-
 	public function getPrever($id){
 		/** guarda los Modulos */
-		$this->db->select("a.*,a.id,a.curso_id,c.nombre as curso,a.grupo_id,g.nombre as grupo,g.hora_ini,g.hora_fin,a.fecha_registro,  s.nombre as sede_nombre");
-		$this->db->from("aperturas a");
-		$this->db->join("cursos c", "a.curso_id = c.id");
-		$this->db->join("grupos g", "a.grupo_id = g.id");
-		$this->db->join("sedes s", "a.sede_id = s.id");
-		$this->db->where("a.id", $id);
-		$resultado = $this->db->get();
+		$resultado = $this->db->select("a.*, a.id, a.curso_id, c.nombre as curso, a.grupo_id, g.nombre as grupo, g.hora_ini, g.hora_fin, a.fecha_registro,  s.nombre as sede_nombre")
+			->from("aperturas a")
+			->join("cursos c", "a.curso_id = c.id")
+			->join("grupos g", "a.grupo_id = g.id")
+			->join("sedes s", "a.sede_id = s.id")
+			->where("a.id", $id)
+			->get();
 		return $resultado->row();
 	}
 
 	public function getCurgrupres(){
-		$this->db->select("a.*,a.id,a.curso_id,c.nombre as curso,a.grupo_id,g.nombre as grupo,g.hora_ini,g.hora_fin");
-		$this->db->from("aperturas a");
-		$this->db->join("cursos c", "a.curso_id = c.id");
-		$this->db->join("grupos g", "a.grupo_id = g.id");
-		$this->db->where("a.notas", "0");
-		$this->db->where("a.estado", "1");
-		//$this->db->group_by("a.curso_id");
-		//$this->db->group_by("a.grupo_id");
-		$resultados = $this->db->get();
+		$resultados = $this->db->select("a.*,a.id,a.curso_id,c.nombre as curso,a.grupo_id,g.nombre as grupo,g.hora_ini,g.hora_fin")
+			->from("aperturas a")
+			->join("cursos c", "a.curso_id = c.id")
+			->join("grupos g", "a.grupo_id = g.id")
+			->where("a.notas", "0")
+			->where("a.estado", "1")
+			->get();
 		if ($resultados->num_rows() > 0) {
 			return $resultados->result();
 		} else {

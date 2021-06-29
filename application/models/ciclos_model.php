@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class ciclos_model extends CI_Model {
+class Ciclos_model extends CI_Model {
 
 	public function getciclos(){
 		$this->db->where("estado","1");
@@ -10,7 +9,7 @@ class ciclos_model extends CI_Model {
 	}
 
 	public function grilla($starIndex, $pageSize, $buscar){
-		$cont=$this->db->count_all_results('ciclos'); 
+		$cont = $this->db->count_all_results('ciclos'); 
 		$this->db->select("a.id, a.descripcion, a.estado");
 		$this->db->from("ciclos as a");
 		$this->db->or_where("a.descripcion LIKE '%$buscar%' AND a.estado=1");
@@ -29,13 +28,12 @@ class ciclos_model extends CI_Model {
 		return $this->db->update("ciclos",$data);
 	}
 
-	public function getedit($id) /// cargar datos docente aula fechas del mantenimiento add prematricula
-	{
-		$this->db->select("*");
-		$this->db->from("ciclos");
-		$this->db->where("id",$id);
-		$this->db->where("estado","1");
-		$resultado = $this->db->get();
+	public function getedit($id){ /// cargar datos docente aula fechas del mantenimiento add prematricula
+		$resultado = $this->db->select("*")
+			->from("ciclos")
+			->where("id",$id)
+			->where("estado","1")
+			->get();
 		if ($resultado->num_rows() > 0) {
 			echo json_encode($resultado->result()[0]);
 		} else {

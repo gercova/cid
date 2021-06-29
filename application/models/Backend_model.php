@@ -1,9 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Backend_model extends CI_Model {
+	
 	public function getID($link){
-
 		$this->db->like("link",$link);
 		$resultado = $this->db->get("menus");
 		return $resultado->row();
@@ -15,31 +14,24 @@ class Backend_model extends CI_Model {
 		$this->db->where ("rol_id",$rol);
 		$resultado = $this->db->get("permisos");
 		return $resultado->row();
-
 	}
 	
 	public function showMenu($rol){
-		$this->db->select("m.link as link");
-		$this->db->from("permisos p");
-		$this->db->join("menus m", "p.menu_id = m.id");
-		$this->db->where ("p.read",1);
-		$this->db->where ("p.rol_id",$rol);
-		$resultados = $this->db->get();
-		
+		$resultados = $this->db->select("m.link as link")
+			->from("permisos p")
+			->join("menus m", "p.menu_id = m.id")
+			->where ("p.read",1)
+			->where ("p.rol_id",$rol)
+			->get();
 		$enlaces = array_column($resultados->result_array(), 'link');
-
 		return $enlaces;
 	}
 
-/** para contar cuantos registros tenemos en las tablas y ademas contar las ventas con la condicion **/
+	/** para contar cuantos registros tenemos en las tablas y ademas contar las ventas con la condicion **/
 	public function rowCount($tabla){
-		// if($tabla != "ventas"){
-		// 	$this->db->where("estado","1");
-		// }
 		$this->db->where("estado","1");
 		$resultados = $this->db->get($tabla);
 		return $resultados->num_rows();
-
 	}
 	
 	public function rowSuma($tabla){

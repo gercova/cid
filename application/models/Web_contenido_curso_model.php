@@ -79,8 +79,7 @@ class Web_contenido_curso_model extends CI_Model {
 		return $this->db->update("web_cursos_contenido",$data);
 	}
 
-		public function getVer($id){ /** para cargar la informacion en el boton ver **/
-
+	public function getVer($id){ /** para cargar la informacion en el boton ver **/
 		$this->db->select("c.*");
 		$this->db->from("web_cursos c");
 		$this->db->where("c.curso_id",$id);
