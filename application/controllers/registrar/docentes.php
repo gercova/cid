@@ -1,28 +1,23 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+class docentes extends CI_Controller {
 
-class docentes extends CI_Controller
-{
 	private $permisos; /* crear para permisos de modulos  */
-	public function __construct()
-	{	parent::__construct();
+	public function __construct(){	
+		parent::__construct();
 		$this->permisos = $this->backend_lib->control();/* crear para permisos de modulos  */
-		$this->load->model("docentes_model");	
+		$this->load->model("docentes_model");
+		$this->load->model('View_model');	
 	}
 
-	public function index()
-	{	$data  = array(
-			'permisos' => $this->permisos, /* crear para permisos de modulos  */
-		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/docentes/listjt", $data);
-		$this->load->view("layouts/footer");
-		$this->load->view("content/c_docentes");	
+	public function index(){	
+		$data['permisos'] = $this->permisos; /* crear para permisos de modulos  */
+
+		$this->View_model->render_view('admin/docentes/listjt', $data, 'content/c_docentes');	
 	}
 
-	public function lista()
-	{	$starIndex = $_GET['jtStartIndex'];
+	public function lista(){	
+		$starIndex = $_GET['jtStartIndex'];
 		$pageSize = $_GET['jtPageSize'];
 		$buscar = (isset($_POST['search']) ? $_POST['search']: '' );
 		$libro = $this->docentes_model->grilla($starIndex, $pageSize, $buscar);
@@ -38,8 +33,7 @@ class docentes extends CI_Controller
 		if($id==0){
 			$jTableResult['Result'] = 'ERROR';
 			$jTableResult['Message']= 'No se Inserto';
-		}else
-		{
+		}else{
 			$libro=$this->Estuidantes_model->one($id);
 			$jTableResult['Result'] = 'ERROR';
 			$jTableResult['Record']= $libro;
@@ -48,8 +42,7 @@ class docentes extends CI_Controller
 		echo json_encode($jTableResult);
 	}
 
-	public function edit()
-	{
+	public function edit(){
 		$id = $this->input->post("id");
 		$this->docentes_model->getedit($id);
 	}
@@ -76,18 +69,16 @@ class docentes extends CI_Controller
 
 		);
 
-			if ($id<=0) {
-				$this->docentes_model->save($data);
-				echo json_encode(['sucess' => true]);
-			//	redirect(base_url()."administrador/pacientes");
-			}
-			else{
-				$this->docentes_model->update($id,$data);
-				echo json_encode(['sucess' => true]);
-			}
+		if ($id<=0) {
+			$this->docentes_model->save($data);
+			echo json_encode(['sucess' => true]);
+		}else{
+			$this->docentes_model->update($id,$data);
+			echo json_encode(['sucess' => true]);
 		}
-	public function delete($id)
-	{
+	}
+	
+	public function delete($id){
 		$data  = array(
 			'estado' => "0",
 		);

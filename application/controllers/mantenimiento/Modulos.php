@@ -8,26 +8,21 @@ class Modulos extends CI_Controller {
 		parent::__construct();
 		$this->permisos = $this->backend_lib->control();/* crear para permisos de modulos  */
 		$this->load->model("Modulos_model");
-		//$this->load->helper(array('download'));
 		$this->load->model("Cursos_model");
+		$this->load->model('View_model');	
 	}
 
-	
-	public function index()
-	{
+	public function index(){
 		$data  = array(
 			'permisos' => $this->permisos, /* crear para permisos de modulos  */
 			'modulos' => $this->Modulos_model->getModulos(),
 		
 		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/modulos/listjt",$data);
-		$this->load->view("layouts/footer");
-		$this->load->view("content/c_modulos");
+
+		$this->View_model->render_view('admin/modulos/listjt', $data, 'content/c_modulos');	
 	}
-	public function lista()
-	{
+	
+	public function lista(){
 		$starIndex = $_GET['jtStartIndex'];
 		$pageSize = $_GET['jtPageSize'];
 		$buscar = (isset($_POST['search']) ? $_POST['search']: '' );
@@ -41,7 +36,6 @@ class Modulos extends CI_Controller {
 	}
 
 	public function add(){
-
 		$data = array(
 			"cursos" => $this->Cursos_model->getCursos(),
 		);
@@ -52,9 +46,7 @@ class Modulos extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
 
-
 	public function store(){ 
-
 		$curso_id = $this->input->post("idcurso");
 		$curso = $this->input->post("curso");
 		$nombremodulo = $this->input->post("nombremodulo");
@@ -63,18 +55,13 @@ class Modulos extends CI_Controller {
 		$this->form_validation->set_rules("curso","Curso de Modulos","required");
 		$this->form_validation->set_rules("curso","Curso de Modulos","required");
 		if ($this->form_validation->run()==TRUE) {
-
 			if ($this->save_modulo($nombremodulo,$abreviaturamodulo,$horamodulo,$curso_id)) {
-
-				redirect(base_url()."mantenimiento/modulos");
-			}
-			else{
+				redirect(base_url("mantenimiento/modulos"));
+			}else{
 				$this->session->set_flashdata("error","No se pudo guardar la informacion");
-				redirect(base_url()."mantenimiento/modulos/add");
+				redirect(base_url("mantenimiento/modulos/add"));
 			}
-		}
-		else{
-			/*redirect(base_url()."mantenimiento/Niveles/add");*/
+		}else{
 			$this->add();
 		}
 

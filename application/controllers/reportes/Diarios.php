@@ -1,38 +1,26 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+class Diarios extends CI_Controller{
 
-class Diarios extends CI_Controller
-{
-
-	public function __construct()
-	{
+	public function __construct(){
 		parent::__construct();
 		if (!$this->session->userdata("login")) {
 			redirect(base_url());
 		}
 		$this->permisos = $this->backend_lib->control();/* crear para permisos de modulos  */
 		$this->load->model("Reportes_model");
+		$this->load->model('View_model');
 	}
 	
-
-	public function index()
-	{
-		//$fechainicio = $this->input->post("fechainicio");
-	//	$fechafin = $this->input->post("fechafin");
+	public function index(){
 		$data  = array(
-			'permisos' => $this->permisos, /* crear para permisos de modulos  */
-			//'pagos' => $this->Pagos_model->getPagos(),
-			//$fechainicio = $this->input->post("fechainicio"),
-			//$fechafin = $this->input->post("fechafin"),
+			'permisos' => $this->permisos,
 		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/reportes/diariosjt", $data);
-		$this->load->view("layouts/footer");
-		$this->load->view("content/c_reportediario");
-	 }
-	public function lista()
-	{
+
+		$this->View_model->render_view('admin/reportes/diariosjt', $data, 'content/c_reportediario');
+	}
+
+	public function lista(){
 		$starIndex = $_GET['jtStartIndex'];
 		$pageSize = $_GET['jtPageSize'];
 	
@@ -40,18 +28,18 @@ class Diarios extends CI_Controller
 			$buscaini = (isset($_POST['ini']) ? $_POST['ini']: '' );
 			$buscafin = (isset($_POST['fin']) ? $_POST['fin']: '' );
 			$fechaselec = (isset($_POST['fselec']) ? $_POST['fselec']: '' );
-			//$fechaselec=$tres;
 			if($fechaselec==2){
-				$grilla='listexpa';;
-			} else{$grilla='listexp';;}
+				$grilla='listexpa';
+			}else{
+				$grilla='listexp';
+			}
 			
-			//$grilla='listexp';
-	  } else {    
-		$buscaini = (isset($_POST['search']) ? $_POST['search']: '' );
-		$buscafin = (isset($_POST['search']) ? $_POST['search']: '' );
-		//$fechaselec = (isset($_POST['search']) ? $_POST['search']: '' );
-		  $grilla='listo';
-	  }
+	  	} else {    
+			$buscaini = (isset($_POST['search']) ? $_POST['search']: '' );
+			$buscafin = (isset($_POST['search']) ? $_POST['search']: '' );
+		  	$grilla='listo';
+	  	}
+		
 		$libro = $this->Reportes_model->$grilla($starIndex, $pageSize, $buscaini, $buscafin);
 		$jTableResult['Result'] = 'OK';
 		$jTableResult['Records'] = $libro[0];
@@ -60,12 +48,9 @@ class Diarios extends CI_Controller
 		echo json_encode($jTableResult);
 	}
 
-
-	public function excel()
-	{	 
-		 header('Content-Disposition: attachment; filename=reportepagos.xls');
-		 header('Content-Type: application/vnd.ms-excel; charset=iso-8859-1');
-		//exit($_GET['ini']);
+	public function excel(){	 
+		header('Content-Disposition: attachment; filename=reportepagos.xls');
+		header('Content-Type: application/vnd.ms-excel; charset=iso-8859-1');
 		$uno=$_GET['ini'];
 		$dos=$_GET['fin'];
 		$tres=$_GET['fselec'];
@@ -81,7 +66,7 @@ class Diarios extends CI_Controller
 			$libro = $this->Reportes_model->$grilla($uno, $dos);
 		}
 
-		 echo "<table >
+		echo "<table >
 			<thead>
 				<tr>
 					<th>#</th>
@@ -116,8 +101,5 @@ class Diarios extends CI_Controller
 				echo "</tbody>
 			</table>
 		";
-		//return $varlo;
-
 	}	
-
 }

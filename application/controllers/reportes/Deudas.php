@@ -1,11 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+class Deudas extends CI_Controller{
 
-class Deudas extends CI_Controller
-{
-
-	public function __construct()
-	{
+	public function __construct(){
 		parent::__construct();
 		if (!$this->session->userdata("login")) {
 			redirect(base_url());
@@ -13,34 +10,31 @@ class Deudas extends CI_Controller
 		$this->permisos = $this->backend_lib->control();/* crear para permisos de modulos  */
 		$this->load->model("Reportes_model");
 		$this->load->model("Prematriculas_model");
+		$this->load->model('View_model');
 	}
 
-	public function index()
-	{
-		
+	public function index(){
 		$data  = array(
 			'permisos' => $this->permisos, /* crear para permisos de modulos  */
 			//'pagos' => $curaperturado,
 			'curaperturados' => $this->Reportes_model->getcursoDeudores(),
 		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/reportes/deudasjt", $data);
-		$this->load->view("layouts/footer");
-		$this->load->view("content/c_reportedeuda");
+
+		$this->View_model->render_view('admin/reportes/deudasjt', $data, 'content/c_reportedeuda');
+
 	}
 
-	public function lista()
-	{
+	public function lista(){
 		$starIndex = $_GET['jtStartIndex'];
 		$pageSize = $_GET['jtPageSize'];
-		if (isset($_POST['loquita'])) {
+		if(isset($_POST['loquita'])) {
 			$buscar = (isset($_POST['loquita']) ? $_POST['loquita']: '' );
 			$grilla='getcursoDeudas';
-	  } else {    
-		  $buscar = (isset($_POST['search']) ? $_POST['search']: '' );
-		  $grilla='getDeudas';
-	  }
+	  	}else{    
+		  	$buscar = (isset($_POST['search']) ? $_POST['search']: '' );
+		  	$grilla='getDeudas';
+	  	}
+		
 		$libro = $this->Reportes_model->$grilla($starIndex, $pageSize, $buscar);
 		$jTableResult['Result'] = 'OK';
 		$jTableResult['Records'] = $libro[0];
@@ -50,23 +44,18 @@ class Deudas extends CI_Controller
 	}
 
 
-	public function excel()
-	{	 
-		 header('Content-Disposition: attachment; filename=deudores.xls');
-		 header('Content-Type: application/vnd.ms-excel; charset=iso-8859-1');
-	//	exit($_GET['idapertura']);
+	public function excel(){	 
+		header('Content-Disposition: attachment; filename=deudores.xls');
+		header('Content-Type: application/vnd.ms-excel; charset=iso-8859-1');
 		if (empty($_GET['ini'])) {
-			//  $buscar = (isset($_POST['loquita']) ? $_POST['loquita']: '' );
-		///	  $grilla='Excele';
-			  $libro = $this->Reportes_model->Excele();
-		} else {    
+			$libro = $this->Reportes_model->Excele();
+		}else{    
 			$buscar = $_GET['ini'];
 			$grilla='Excelbuse';
 			$libro = $this->Reportes_model->$grilla($buscar);
 		}
 		
-
-		 echo "<table >
+		echo "<table >
 			<thead>
 				<tr>
 					<th>#</th>
@@ -105,9 +94,5 @@ class Deudas extends CI_Controller
 				echo "</tbody>
 			</table>
 		";
-		 }
-
-
-
-	
+	}
 }

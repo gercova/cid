@@ -7,22 +7,20 @@ class sedes extends CI_Controller
 	public function __construct()
 	{	parent::__construct();
 		$this->permisos = $this->backend_lib->control();/* crear para permisos de modulos  */
-		$this->load->model("sedes_model");	
+		$this->load->model("sedes_model");
+		$this->load->model('View_model');
 	}
 
 	public function index()
 	{	$data  = array(
 			'permisos' => $this->permisos, /* crear para permisos de modulos  */
 		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/sedes/listjt", $data);
-		$this->load->view("layouts/footer");
-		$this->load->view("content/c_sedes");	
+		$this->View_model->render_view('admin/sedes/listjt', $data, 'content/c_sedes');	
+			
 	}
 
-	public function lista()
-	{	$starIndex = $_GET['jtStartIndex'];
+	public function lista(){	
+		$starIndex = $_GET['jtStartIndex'];
 		$pageSize = $_GET['jtPageSize'];
 		$buscar = (isset($_POST['search']) ? $_POST['search']: '' );
 		$libro = $this->sedes_model->grilla($starIndex, $pageSize, $buscar);
